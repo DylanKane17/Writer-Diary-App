@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import DisplayProject from "../components/DisplayProject";
 import { useNavigate } from "react-router-dom";
 
-export default function EntriesPage() {
+export default function BooksPage() {
   const [projects, setProjects] = useState([]);
   const { loading, currentUserData, currentUser } = useAuth();
   const navigate = useNavigate();
@@ -11,19 +11,18 @@ export default function EntriesPage() {
   useEffect(() => {
     const userData = currentUserData().then((data) => {
       setProjects([]);
+      console.log("Data", data);
       for (const [key, value] of Object.entries(data)) {
         const newProject = {
           id: key,
           name: value["name"],
-          progress: value["progress"],
-          target: value["target"],
+          progress: parseInt(value["progress"]),
+          target: parseInt(value["target"]),
         };
         console.log("logged");
         console.log(newProject);
-        setProjects((prevBooks) => [...projects, newProject]);
+        setProjects((projects) => [...projects, newProject]);
       }
-      console.log("Projects: ");
-      console.log(projects);
     });
   }, [loading, currentUser]);
 

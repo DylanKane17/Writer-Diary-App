@@ -38,8 +38,8 @@ export default function NewEntryPage() {
             type="text"
             class="border-2 border-gray-300 rounded-lg py-1 placeholder:italic pl-2"
             name="entry"
-            placeholder="Enter quote here"
-            aria-label="Enter quote here"
+            placeholder="Enter entry title here"
+            aria-label="Enter entry title here"
           ></input>
           <label>Date of Entry</label>
           <input
@@ -48,11 +48,12 @@ export default function NewEntryPage() {
             placeholder="Enter character/author/person..."
             class="border-2 border-gray-300 rounded-lg py-1 placeholder:italic pl-2"
           ></input>
-          <label>What is your current word count?</label>
+          <label>How many words did you write?</label>
           <input
             type="number"
             name="progress"
-            placeholder="Enter word count here"
+            placeholder="Enter number of words here here"
+            aria-label="Enter number of words here here"
             class="border-2 border-gray-300 rounded-lg py-1 placeholder:italic pl-2"
           ></input>
           <label>Additional Notes</label>

@@ -2,10 +2,13 @@ import { useAuth } from "../firebase/AuthContext";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DisplayEntry from "../components/DisplayEntry";
+import ProgressBar from "../components/ProgressBar";
 
 export default function EntriesPage() {
   const [entries, setEntries] = useState([]);
   const { loading, currentUserData, currentUser } = useAuth();
+  const [progress, setProgress] = useState();
+  const [target, setTarget] = useState();
   const location = useLocation();
   const project_id = location.state?.project_id;
   const navigate = useNavigate();
@@ -14,6 +17,10 @@ export default function EntriesPage() {
     console.log("Entries Page: Project: ", project_id);
     const userData = currentUserData().then((data) => {
       setEntries([]);
+      console.log("Data: ", data);
+      console.log("Data id: ", parseInt(data[project_id].progress));
+      setProgress(Number(data[project_id].progress));
+      setTarget(Number(data[project_id].target));
       for (const [key, value] of Object.entries(data[project_id]["entries"])) {
         const newEntry = {
           id: key,
@@ -30,6 +37,11 @@ export default function EntriesPage() {
       console.log(entries);
     });
   }, [loading, currentUser]);
+
+  useEffect(() => {
+    console.log("updated progress:", progress);
+    console.log("updated target:", target);
+  }, [progress, target]);
 
   const entryObjects = entries
     ? entries.map((obj) => (
@@ -58,6 +70,7 @@ export default function EntriesPage() {
               </span>
             </p>
           )}
+          <ProgressBar progress={progress} target={target} />
           <section class="flex flex-wrap justify-center items-center gap-4 mx-auto mt-8 tracking-wide">
             {entryObjects}
           </section>

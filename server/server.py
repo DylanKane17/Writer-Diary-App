@@ -50,8 +50,8 @@ def add_project():
     
     to_add = {
         'name': request.json['name'],
-        'progress': request.json['progress'],
-        'target': request.json['target'],
+        'progress': int(request.json['progress']),
+        'target': int(request.json['target']),
         'entries': {}
     }
     uid = request.json['uid']
@@ -63,7 +63,7 @@ def add_project():
 
 @app.route('/add-user-entry', methods=["POST"])
 def add_entry():
-    
+
     to_add = {
         'title': request.json['title'],
         'notes': request.json['notes'], 
@@ -72,7 +72,14 @@ def add_entry():
     }
     
     
+    uid = request.json['uid']
     project = request.json['project']
+
+    update_progress_ref = db.reference(f'/user-data/{uid}/{project}/progress')
+    old_progress = update_progress_ref.get()
+    new_progress = int(to_add['progress']) + int(old_progress)
+    update_progress_ref.set(new_progress)
+
     user_ref = db.reference(f'/user-data/{uid}/{project}/entries')
     to_add_ref = user_ref.push().set(to_add)
     print(to_add_ref)
