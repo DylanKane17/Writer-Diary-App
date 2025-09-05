@@ -109,6 +109,14 @@ def delete_user_data():
     user_ref_to_delete.delete()
     return {"message": "user data deleted!"}, 200
 
+@app.route('/delete-user-project', methods=["POST"])
+def delete_user_project():
+    project = request.json['project']
+    uid = request.json['uid']
+    project_ref_to_delete = db.reference(f'/user-data/{uid}/{project}')
+    project_ref_to_delete.delete()
+    return {"message": "project deleted!"}, 200
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

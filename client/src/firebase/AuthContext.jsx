@@ -7,6 +7,7 @@ import {
   addUserEntry,
   addUserProject,
   deleteUserData,
+  deleteProject,
 } from "./CRUD";
 import {
   onAuthStateChanged,
@@ -84,6 +85,16 @@ export function AuthProvider({ children }) {
           console.log("Error: ", e.message);
         })
     );
+  }
+
+  async function deleteUserProject(projectID) {
+    console.log("attempting delete...");
+    if (!loading && currentUser) {
+      let response = await verifyUser(currentUser.accessToken).then((uid) => {
+        return deleteProject(uid, projectID);
+      });
+      return response;
+    }
   }
 
   function createUser(email, password) {
@@ -167,6 +178,7 @@ export function AuthProvider({ children }) {
     createUser,
     signUserOut,
     deleteCurrentUser,
+    deleteUserProject,
     addEntry,
     addProject,
     loading,

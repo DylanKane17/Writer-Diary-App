@@ -1,6 +1,6 @@
 import { useAuth } from "../firebase/AuthContext";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import DisplayEntry from "../components/DisplayEntry";
 import ProgressBar from "../components/ProgressBar";
 
@@ -21,20 +21,24 @@ export default function EntriesPage() {
       console.log("Data id: ", parseInt(data[project_id].progress));
       setProgress(Number(data[project_id].progress));
       setTarget(Number(data[project_id].target));
-      for (const [key, value] of Object.entries(data[project_id]["entries"])) {
-        const newEntry = {
-          id: key,
-          title: value["title"],
-          notes: value["notes"],
-          progress: value["progress"],
-          date: value["date_added"],
-        };
-        console.log("logged");
-        console.log(newEntry);
-        setEntries((prevEntries) => [...prevEntries, newEntry]);
+      try {
+        for (const [key, value] of Object.entries(
+          data[project_id]["entries"]
+        )) {
+          const newEntry = {
+            id: key,
+            title: value["title"],
+            notes: value["notes"],
+            progress: value["progress"],
+            date: value["date_added"],
+          };
+          console.log("logged");
+          console.log(newEntry);
+          setEntries((prevEntries) => [...prevEntries, newEntry]);
+        }
+      } catch (e) {
+        setEntries(null);
       }
-      console.log("Entries: ");
-      console.log(entries);
     });
   }, [loading, currentUser]);
 
@@ -62,17 +66,21 @@ export default function EntriesPage() {
       ) : (
         <>
           <h1 class="text-white text-2xl tracking-widest uppercase">Entries</h1>
-          {entryObjects === null && (
-            <p class="text-gray-500 mt-8 italic">
-              No entries yet!{" "}
-              <span class="text-indigo-300 italic">
-                Add an entry to get started!
-              </span>
-            </p>
-          )}
           <ProgressBar progress={progress} target={target} />
           <section class="flex flex-wrap justify-center items-center gap-4 mx-auto mt-8 tracking-wide">
-            {entryObjects}
+            {entryObjects ? (
+              entryObjects
+            ) : (
+              <p class="text-gray-500 mb-4 italic">
+                No entries yet!{" "}
+                <Link
+                  to="/new-entry"
+                  class="hover:underline hover:cursor-pointer text-indigo-300"
+                >
+                  Add an entry to get started!
+                </Link>
+              </p>
+            )}
           </section>
           <button
             onClick={() =>

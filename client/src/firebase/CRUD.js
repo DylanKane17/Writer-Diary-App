@@ -40,6 +40,18 @@ export const newUserData = async (user_token) => {
   response = await response.json();
 };
 
+export const deleteProject = async (currUID, projectID) => {
+  let response = await fetch(baseUrl + "/delete-user-project", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ uid: currUID, project: projectID }),
+  });
+  response = await response.json();
+  return response;
+};
+
 export const addUserEntry = async (
   userTitle,
   userNotes,

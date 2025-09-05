@@ -1,27 +1,32 @@
 import { useAuth } from "../firebase/AuthContext";
 import { useState, useEffect } from "react";
 import DisplayProject from "../components/DisplayProject";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function BooksPage() {
   const [projects, setProjects] = useState([]);
-  const { loading, currentUserData, currentUser } = useAuth();
+  const { loading, currentUserData, currentUser, deleteUserProject } =
+    useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const userData = currentUserData().then((data) => {
       setProjects([]);
       console.log("Data", data);
-      for (const [key, value] of Object.entries(data)) {
-        const newProject = {
-          id: key,
-          name: value["name"],
-          progress: parseInt(value["progress"]),
-          target: parseInt(value["target"]),
-        };
-        console.log("logged");
-        console.log(newProject);
-        setProjects((projects) => [...projects, newProject]);
+      try {
+        for (const [key, value] of Object.entries(data)) {
+          const newProject = {
+            id: key,
+            name: value["name"],
+            progress: parseInt(value["progress"]),
+            target: parseInt(value["target"]),
+          };
+          console.log("logged");
+          console.log(newProject);
+          setProjects((projects) => [...projects, newProject]);
+        }
+      } catch (e) {
+        setProjects(null);
       }
     });
   }, [loading, currentUser]);
@@ -33,6 +38,10 @@ export default function BooksPage() {
     });
   }
 
+  function handleDelete(id) {
+    deleteUserProject(id).then(window.location.reload());
+  }
+
   const projectObjects = projects
     ? projects.map((obj) => (
         <DisplayProject
@@ -42,6 +51,7 @@ export default function BooksPage() {
           key={obj.id}
           id={obj.id}
           handleClick={handleClick}
+          handleDelete={handleDelete}
         ></DisplayProject>
       ))
     : null;
@@ -56,7 +66,19 @@ export default function BooksPage() {
             Projects
           </h1>
           <section class="flex flex-wrap justify-center items-center gap-4 mx-auto mt-6 tracking-wide">
-            {projectObjects}
+            {projectObjects ? (
+              projectObjects
+            ) : (
+              <p class="text-gray-500 mt-8 italic">
+                No projects yet!{" "}
+                <Link
+                  to="/new-project"
+                  class="hover:underline hover:cursor-pointer text-indigo-300"
+                >
+                  Add a project to get started!
+                </Link>
+              </p>
+            )}
           </section>
         </>
       )}
