@@ -1,6 +1,8 @@
 # Writer-Diary-App
 Web applications that allows users to add diary-like entries for their writing projects
 
+> Still under active development!
+
 ## Full Installation
 
 1. Create new directory for installation
