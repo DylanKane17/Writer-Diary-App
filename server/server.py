@@ -15,8 +15,9 @@ CRED_FILE = os.getenv('PATH_TO_CRED')
 
 app = Flask(__name__)
 CORS(app,
-     origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-     supports_credentials=True)
+     resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}},
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "OPTIONS"])
 
 cred = credentials.Certificate(CRED_FILE)
 firebase = firebase_admin.initialize_app(cred,
@@ -128,4 +129,4 @@ def delete_user_project():
     return {"message": "project deleted!"}, 200
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5050)

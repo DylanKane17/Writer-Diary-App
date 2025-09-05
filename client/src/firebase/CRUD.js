@@ -1,4 +1,4 @@
-const baseUrl = "http://127.0.0.1:5000";
+const baseUrl = "http://127.0.0.1:5050";
 
 export const verifyUser = async (user_token) => {
   console.log("fetching...");
