@@ -1,5 +1,5 @@
 # Writer-Diary-App
-Web applications that allows users to add diary-like entries for their writing projects
+Full-stack web app for writers to set word count goals, track progress, and add diary-like entries of their writing sessions. Implements a React frontend, Flask backend, and a Firebase Realtime database to store personalized data.
 
 > Still under active development!
 
