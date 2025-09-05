@@ -1,4 +1,5 @@
 # Writer-Diary-App
+
 Full-stack web app for writers to set word count goals, track progress, and add diary-like entries of their writing sessions. Implements a React frontend, Flask backend, and a Firebase Realtime database to store personalized data.
 
 > Still under active development!
@@ -6,17 +7,20 @@ Full-stack web app for writers to set word count goals, track progress, and add 
 ## Full Installation
 
 1. Create new directory for installation
+
 ```sh
 mkdir writer-diary-app
 cd writer-diary-app
 ```
 
 2. Clone the repository
+
 ```sh
 git clone https://github.com/DylanKane17/Writer-Diary-App.git
 ```
 
 3. Run the backend API (Flask)
+
 ```sh
 python -m venv venv
 source venv/bin/activate
@@ -24,16 +28,20 @@ pip install firebase_admin flask flask_cors python_dotenv
 ```
 
 4. Run the frontend (React & Vite)
+
 ```sh
 cd client
 npm install
 npm run dev
 ```
+
 Frontend runs at http://localhost:5173 and connects to the backend API.
 
 ## Installation Access
+
 1. Main Interface: http://localhost:5173
-2. Server Access: http://localhost:5000
+2. Server Access: http://localhost:5050
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
